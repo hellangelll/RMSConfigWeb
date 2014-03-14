@@ -1,0 +1,33 @@
+//用户列表
+
+//客户端发送值
+{
+	"target":"user_list",
+	"action":"get",
+	"status":0,				//当次操作的状态码 0--正常
+	"identify":"134651"	,	//身份标识
+	"data":{
+        "name" : ""         //需要查询的用户名字符   为空的话  就是查询所有用户
+    }
+}
+
+//服务端返回值
+{
+	"target":"user_list",
+	"action":"get",
+	"status":0,		//当次操作的状态码 0--正常
+	"data":{
+		"users":[{
+			"name":"user0",		//用户名
+			"channel_count":10
+		},{
+			"name":"user1",
+			"channel_count":11
+		},{
+			"name":"user2",
+			"channel_count":12
+		}]
+	}
+}
+
+

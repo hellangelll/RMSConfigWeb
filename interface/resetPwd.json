@@ -1,0 +1,20 @@
+//客户端发送值
+{
+	"target":"reset_pwd",           //重置密码
+	"action":"set",
+	"status":0,						//当次操作的状态码 0--正常
+	"identify":"134651",			//身份标识
+	"data":{
+       "users":[{
+       			"name":"user0",		//用户名
+       		}]
+	}
+}
+
+//服务端返回值
+{
+	"target":"reset_pwd",
+	"action":"set",
+	"status":0,		//当次操作的状态码 0--正常
+	"data":{}
+}

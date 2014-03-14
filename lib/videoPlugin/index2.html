@@ -1,0 +1,472 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html  xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<!--<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8">-->
+		<title>index2</title>
+		<meta name="author" content="Administrator" />
+		<!-- Date: 2013-05-15 -->
+		<script src="js/VideoControl.js" type="text/javascript"></script>
+		<script type="text/javascript" src="lib/jq/jquery-1.7.2.min.js"></script>
+		<style type="text/css">
+			#testdiv {
+				height: 320px;
+				width: 500px;
+			}
+		</style>
+	</head>
+	<body>
+		<DIV class="ui-layout-north" style="text-align: center;">
+			<h1>VideoControl</h1>
+		</DIV>
+		<div id="testdiv"  style="float: left;"> </div>
+		<DIV class="ui-layout-west" style="float: right; width:500px;">
+			<div id="play">
+				<input type="button" onclick="test('addDev');" value="addDev" />
+				<input type="button" onclick="test('enumChannel');" value="enumChannel" />
+				<input type="button" onclick="test('enumNode');" value="enumNode" />
+				<input type="button" onclick="test('play',0);" value="play1" />
+				<input type="button" onclick="test('play',1);" value="play2" />
+				<input type="button" onclick="test('stop',0);" value="stop1" />
+				<input type="button" onclick="test('stop',1);" value="stop2" />
+				<input type="button" onclick="test('mode',0);" value="普通模式" />
+				<input type="button" onclick="test('mode',1);" value="浮动模式" />
+				<br />
+				<input type="button" onclick="test('playurl');" value="playurl" />
+				<input type="button" onclick="test('stopurl');" value="stopurl" />
+				<input type="text" id="playurl" style="width: 300px;" value="rtsp://192.168.10.154:554/cam/realmonitor?channel=1&subtype=0&unicast=true&proto=Onvif" />
+				<br />
+				IP:
+				<input type="text" id="strip" value="192.168.14.50" />
+				<br />
+				<input type="button" onclick="test('setSize');" value="setSize" />
+				w:
+				<input type="text" id="w" value="640" />
+				h:
+				<input type="text" id="h" value="360" />
+				<br />
+				<input type="button" onclick="test('setPosition');" value="setPosition" />
+				t:
+				<input type="text" id="t" value="200" />
+				l:
+				<input type="text" id="l" value="150" />
+				<br />
+				<input type="button" onclick="test('getVersion');" value="getVersion" />
+				<input type="text" id="version" value="" />
+				<input type="button" onclick="test('setScreenNum');" value="setScreenNum" />
+				<select id="windownum">
+					<option value="1">1</option>
+					<option value="4" selected="selected">4</option>
+					<option value="9">9</option>
+					<option value="16">16</option>
+				</select>
+				<br />
+				<input type="button" onclick="test('setVisibility-h');" value="setVisibility-hide" />
+				<input type="button" onclick="test('setVisibility-s');" value="setVisibility-show" />
+				<br />
+				<input type="button" onclick="test('setFullScreen');" value="setFullScreen" />
+				<input type="button" onclick="test('setAudio');" value="setAudio" />
+				<input type="button" onclick="test('setTalk');" value="setTalk" />
+				<br />
+				<input type="button" onclick="test('getSnapshot');" value="getSnapshot" />
+				<input type="button" onclick="test('setFilePath');" value="setFilePath" />
+				<input type="button" onclick="test('openFilePath');" value="openFilePath" />
+				<br />
+				<input type="button" onclick="test('setRecordFileSize');" value="setRecordFileSize" />
+				<input type="text" id="filesize" value="1" />
+				<input type="button" onclick="test('setRecord-s');" value="setRecord-start" />
+				<input type="button" onclick="test('setRecord-e');" value="setRecord-end" />
+				<input type="button" onclick="test('setRecordPath');" value="setRecordPath" />
+				<input type="button" onclick="test('openRecordPath');" value="openRecordPath" />
+
+				<br />
+				<input type="button" onmousedown="test('left',3);" onmouseup="test('left',0);" value="left" />
+				<input type="button" onmousedown="test('right',3);" onmouseup="test('right',0);" value="right" />
+				<input type="button" onmousedown="test('up',3);" onmouseup="test('up',0);" value="up" />
+				<input type="button" onmousedown="test('down',3);" onmouseup="test('down',0);" value="down" />
+				<input type="button" onclick="test('halt');" value="halt" />
+				<br />
+				<input type="button" onclick="test('create');" value="create" />
+				<input type="button" onclick="test('setTitle');" value="setTitle" />
+				<br />
+				<input type="button" onclick="test('handleComponent');" value="handleComponent" />
+				title
+				<input type="text" id="title" value="" />
+				<br />
+				<input type="button" onclick="test('closeall');" value="closeall" />
+			</div>
+		</DIV>
+	</body>
+	<script type="text/javascript">
+        /********************************************************************
+         *
+         *
+         *
+         * 								初始化					**
+         *
+         *
+         *
+         *******************************************************************/
+
+        //控件的功能控制模块 可不传 默认显示上下区域
+        var funcObj = {
+            //是否以窗口模式显示 true-显示窗口模式
+            bWindowMode : 1,
+            //是否显示屏幕切换控制面板 true-显示
+            bShowScreenCtrl : 1,
+            //是否显示播放控制面板 true-显示
+            bShowPlayCtrl : 1,
+            //是否显示参数控制面板 true-显示
+            bShowParaCtrl : 0,
+            //定义哪一个面板显示在视频播放窗口的上部 0-screen 1-playctrl
+            iWhichShowOnTop : 0,
+            oControl : {
+                bRecord : 0,
+                bTalkback : 0,
+                bCapture : 0,
+                bAudio : 0,
+                bStopAll : 0,
+                bStop : 0,
+                bReplay : 0,
+                bVideoPath : 1
+            },
+            oWindow : {
+                bOne : true,
+                bFour : true,
+                bNine : true,
+                bFull : true
+            }
+        };
+
+        //控件的语言包  可不传  默认为英文
+        var languagePacket = {
+            l_oScreen : {
+                l_fullScreen : '全屏',
+                l_oneWindow : '单窗口',
+                l_fourWindow : '四窗口',
+                l_nineWindow : '九窗口',
+                l_sixteenWindow : '十六窗口'
+            },
+
+            l_oPlayCtrl : {
+                l_videopath : '设置本地录像保存路径',
+                l_replay : '重连',
+                l_stop : '断开',
+                l_audioOpen : '打开音频',
+                l_audioclose : '关闭音频',
+                l_talkbackOpen : '打开对讲',
+                l_talkbackClose : '关闭对讲',
+                l_snapshot : '手动抓图',
+                l_record : '手动录像',
+                l_stopAll : '断开所有视频'
+            }
+        };
+
+        //控件的颜色定义  可不传 默认为绿色风格
+        var oPlayerInitParam = {
+            "baseclr" : "RGB(128,128,128)",
+            "playclr" : "RGB(54,54,54)",
+            "selclr" : "RGB(255,170,25)",
+            "maintitle" : "智慧显现融合111",
+            "maintitleclr" : "RGB(180,180,180)",
+            "subtitle" : "WISDOM LIGHTS HARMONY",
+            "subtitleclr" : "RGB(238,154,0)",
+            "msgclr" : "RGB(128,128,128)"
+        };
+
+        //控件的依附父对象 可不传 如果不传的话  在调用draw()方法的时候,回返回内部创建的依附对象的id;
+        var parentObj = $("#testdiv");
+        var o = new JSVideoCtrl(parentObj, 1, "css/plugin.css", funcObj, languagePacket);
+
+        //[sPluginId] 视频控件的classid 格式为4EF69BF4-0B48-4EC8-AD65-C5B59483592B  为空的话  就用默认值
+		
+        var sParentId = o.draw(oPlayerInitParam/*, [sPluginClassId]*/);
+        //o.videoCtrl.setFullScreen();
+       // o.videoCtrl.setScreenNum(9);
+
+        /************************************************************************
+         *
+         *
+         *
+         * 							事件注册					**
+         *
+         *
+         *
+         ************************************************************************/
+         //* @method regPlayEvent 注册播放事件回调
+         o.videoCtrl.eventCtrl.regPlayEvent(play);
+         function play(data){
+             HAT._log._console("PlayEvent_____"+data);
+         }
+         o.videoCtrl.eventCtrl.regStopEvent(stop);
+		 function stop(data){
+             HAT._log._console("StopEvent_____"+data);
+         }
+         o.videoCtrl.eventCtrl.regSelectEvent(Select);
+		 function Select(data){
+		 	//o.tellGetInitEvent();
+             HAT._log._console("SelectEvent_____"+data);
+         }
+         o.videoCtrl.eventCtrl.regStreamBroken(StreamBroken);
+		function StreamBroken(data){
+            HAT._log._console("StreamBroken_____"+data);
+         }
+         o.videoCtrl.eventCtrl.regDevAdd(DevAdd);
+        function DevAdd(data){
+            HAT._log._console("DevAdd_____"+data);
+        }
+         o.videoCtrl.eventCtrl.regDevConnectEvent(DevConnectEvent);
+         function DevConnectEvent(data){
+             HAT._log._console("DevConnectEvent_____"+data);
+        }
+         o.videoCtrl.eventCtrl.regEnumNode(EnumNode);
+         function EnumNode(data){
+             HAT._log._console("EnumNode_____"+data);
+        }
+         o.videoCtrl.eventCtrl.regVideoColorGet(videoColor);
+         function videoColor(data){
+             HAT._log._console("videoColor_____"+data);
+        }
+         o.videoCtrl.eventCtrl.regInitFinished(InitFinished);
+         function InitFinished(data){
+         	//通知控件已经收到了初始化完成的消息 让控件停止当前的这个消息回调
+         	o.tellGetInitEvent();
+         	//调用控件其它接口
+         	o.setSurface(oPlayerInitParam);
+             HAT._log._console("InitFinished_____"+data);
+        }
+
+        /************************************************************************
+         *
+         *
+         *
+         * 							常规操作				**
+         *
+         *
+         *
+         ************************************************************************/
+
+        //设置控件是否处于调试模式 true-调试模式(会有部分错误消息提示) false-发布模式
+        o.setDebugMode(true);
+
+        function test(v, s) {
+            switch(v)
+            {
+                case "play":
+                    var b0 = {
+                        "devname" : "rms",
+                       // "chanid" : "rms/234/1",
+                        "chanid" : "7553005130500076",
+                        "streamtype" : s,
+                        "protocal" : "tcp",
+                        "ext" : "ext",
+                        "_id" : "tree_4"
+                    };
+
+                    var b1 = {
+                        ip : '192.168.14.51',
+                        port : 80,
+                        channel : 1,
+                        streamtype : 0
+                    };
+
+                    var b2 = 'pem://netposa@12345:m.netposa.com:6888/hik_video?v=F:\\演示视频\\hik_video.mp4';
+
+                    o.videoCtrl.realtimeCtrl.playVideo(b0, 3, "e55ae30a1441a2bc14c4d078");
+                    break;
+                 case "stop":
+                	var s0 = {
+                        "devname" : "dev01",
+                        "chanid" : "rms_2/100005",
+                        "streamtype" : s,
+                        "protocal" : "tcp",
+                        "ext" : "ext",
+                        "_id" : "tree_4"
+                    };
+                 	o.videoCtrl.realtimeCtrl.stop(s0, 3, "e55ae30a1441a2bc14c4d078");
+                 	break;
+                 case "addDev":
+                    var dev = {
+                        "target" : "device/add",
+                        "action" : "set",
+                        "sid" : "e55ae30a1441a2bc14c4d078",
+                        "data" : {
+                            "devip" : "192.168.15.44",
+							//"devip" : "192.168.10.179",
+                            "devport" : 6100,
+							//"devport" : 6100,
+                            "devname" : "rms",
+                            "username" : "admin",
+							//"username" : "test",
+                            "password" : "admin",
+							//"password" : "test",
+                            // "devtype" : "tk",
+							"devtype" : "rms",
+							"isencrypt" : 0,
+                            "ext" : "ext"
+                        }
+                    };
+                    o.videoCtrl.handleComponent(dev,3);
+                    break;
+                case "enumChannel":
+                	var dev = {
+                        "target" : "node/enum",
+                        "action" : "set",
+                        "sid" : "e55ae30a1441a2bc14c4d078",
+                        "data" : {
+                        	"devname" : "rms",
+                        	"nodeid":"*"
+                        }
+                    };
+                    o.videoCtrl.handleComponent(dev,3);
+                	break; 
+                case "enumNode" :
+                var dev = {
+                        "target" : "node/enum",
+                        "action" : "set",
+                        "sid" : "e55ae30a1441a2bc14c4d078",
+                        "data" : {
+                        	"devname" : "dev01",
+                        	"nodeid":"rms_1"
+                        }
+                    };
+                    o.videoCtrl.handleComponent(dev,3);
+                	break;
+                case "setSize":
+                    var x = $("#h").val();
+                    var y = $("#w").val();
+                    //setTimeout("DivObj.css({width:" + y + "+'px', height:" + x +
+                    // "+'px'});", 200);
+                    o.resize(y, x);
+                    //obj2.videoCtrl.setSize(y,x);
+                    break;
+
+                case "setPosition":
+                    var x = $("#l").val();
+                    var y = $("#t").val();
+                    o.setPosition(x, y);
+                    break;
+
+                case "getVersion":
+                    $("#version").val(o.videoCtrl.getVersion());
+                    break;
+
+                case "setVisibility-h":
+                    o.videoCtrl.setVisibility(false);
+                    break;
+
+                case "setVisibility-s":
+                    o.videoCtrl.setVisibility(true);
+                    break;
+
+                case "setFullScreen":
+                    o.videoCtrl.setFullScreen();
+                    break;
+
+                case "setTalk":
+                    o.videoCtrl.setTalk();
+                    break;
+
+                case "setAudio":
+                    o.videoCtrl.setAudio();
+                    break;
+                    
+                case "getSnapshot":
+                    o.videoCtrl.localCtrl.picCtrl.getSnapshot();
+                    break;
+
+                case "setFilePath":
+                    o.videoCtrl.localCtrl.picCtrl.setFilePath();
+                    break;
+
+                case "openFilePath":
+                    o.videoCtrl.localCtrl.picCtrl.openFilePath();
+                    break;
+
+                case "openRecordPath":
+                    o.videoCtrl.localCtrl.streamCtrl.openRecordPath();
+                    break;
+
+                case "setRecord-s":
+                    o.videoCtrl.localCtrl.streamCtrl.setRecord(1);
+                    break;
+
+                case "setRecord-e":
+                    o.videoCtrl.localCtrl.streamCtrl.setRecord(0);
+                    break;
+
+                case "setRecordPath":
+                    o.videoCtrl.localCtrl.streamCtrl.setRecordPath();
+                    break;
+
+                case "setRecordFileSize":
+                    o.videoCtrl.localCtrl.streamCtrl.setRecordFileSize($("#filesize").val());
+                    break;
+
+                case "setScreenNum":
+                    o.videoCtrl.setScreenNum($("#windownum").val());
+                    break;
+                case "down":
+                    o.ptzCtrl.turnDown(s,3, "1111");
+                    break;
+                case "right":
+                    o.ptzCtrl.turnRight(s,3, "");
+                    break;
+                case "left":
+                    o.ptzCtrl.turnLeft(s,3, "");
+                    break;
+                case "up":
+                    o.ptzCtrl.turnUp(s,3, "");
+                    break;
+                case "halt":
+                    o.ptzCtrl.turnHalt(8,3,100861);
+                    break;
+                case "create":
+                    obj2 = new JSVideoCtrl(DivObj2, 1, 1, 1);
+                    //test("setSize");
+                    obj2.draw();
+                    break;
+                case "setTitle":
+                    o.uiCtrl.setTitleContext($("#title").val());
+                    break;
+                case "handleComponent":
+                    o.videoCtrl.handleComponent({
+                        "cmd" : "deldev",
+                        "hostid" : 1
+                    });
+                    break;
+                case "closeall":
+                	o.videoCtrl.realtimeCtrl.stopAll();
+                    break;
+                case "playurl":
+                	var a = {};
+                	a.url = $("#playurl").val();
+                	a.streamtype = 0;	//码流类型
+                	a.protocal = "tcp";
+                	a._id = "34545"
+                	o.videoCtrl.realtimeCtrl.playUrl(1008611, a);
+                	break;
+                case "stopurl":
+                	var a = {};
+                	a.url = $("#playurl").val();
+                	a._id = "34545"
+                	o.videoCtrl.realtimeCtrl.stopUrl(1008611, a);
+                	break;
+                case "mode":
+                	o.videoCtrl.setPluginType(s);
+                	break;
+                default:
+                    alert('test');
+                    break;
+            }
+        }
+
+
+        $(window).resize(function() {
+            //alert();
+            o.resizeCallback();
+        });
+	</script>
+</html>
+

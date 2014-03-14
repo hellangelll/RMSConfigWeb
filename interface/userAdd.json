@@ -1,0 +1,22 @@
+//客户端发送值
+{
+	"target":"user_add",
+	"action":"set",
+	"status":0,				//当次操作的状态码 0--正常
+	"identify":"134651"		//身份标识
+	"data":{
+		"users":{
+			"name":"user0",		//用户名
+			"pwd_ordered":"098f6bcd4621d373cade4e832627b4f6",		//密码 md5加密 32位大写
+			"pwd_reverse":"098f6bcd4621d373cade4e832627b4f6"
+		}
+	}
+}
+
+//服务端返回值
+{
+	"target":"user_add",
+	"action":"set",
+	"status":0,		//当次操作的状态码 0--正常
+	"data":{}
+}

@@ -1,0 +1,17 @@
+//重启rms
+//客户端发送值
+{
+	"target":"restart",
+	"action":"set",
+	"status":0,					//当次操作的状态码 0--正常
+	"identify":"134651",		//身份标识
+	"data":{}<!--  -->
+}
+
+//服务端返回值
+{
+	"target":"restart",
+	"action":"set",
+	"status":0,					//当次操作的状态码 0--正常
+	"data":{}
+}

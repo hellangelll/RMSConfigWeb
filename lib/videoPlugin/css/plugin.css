@@ -1,0 +1,202 @@
+@charset "utf-8";
+
+/**
+ * 	基础样式*/
+
+/*ocx对象*/
+.p-videoPlugin {
+	width: 640px;
+	height: 360px;
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+	top:0px;
+	left:0px;
+	margin-bottom: -4px;
+}
+
+.p-videoCtrl-westDiv {
+	width: 640px;
+	height: 460px;
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+	float: left;
+	background-color: #fff;
+	border-left: 0px solid #74B04E;
+	border-right: 0px solid #74B04E;
+}
+
+/*视频控件的顶部*/
+.p-videoCtrl-northDiv {
+	width: 640px;
+	height: 40px;
+	padding: 0px;
+	border-top: 0px solid #74B04E;
+	border-bottom: 0px solid #74B04E;
+	text-align: right;
+	*margin-top: 4px; /*hack ie7*/
+}
+
+.p-button {
+	width: 26px;
+	height: 26px;
+	/*background-color: #D5D6D6;*/
+	border: 0px solid #1C94C4;
+	margin: 6px 10px 0 0;
+	float: right;
+	cursor: pointer;
+	background-position: center top;
+	background-repeat: no-repeat;
+}
+
+.p-button:hover {
+	background-position: center center;
+}
+
+.p-button:active {
+	background-position: center bottom;
+}
+
+.p-s-0 {
+	background-image: url(../images/full_screen.png);
+}
+
+.p-s-1 {
+	background-image: url(../images/one_window.png);
+}
+
+.p-s-4 {
+	background-image: url(../images/four_window.png);
+}
+
+.p-s-9 {
+	background-image: url(../images/nine_window.png);
+}
+
+/*
+ .p-s-1 table, .p-s-9 table {
+ width: 20px;
+ height: 20px;
+ background-color: #fff;
+ border: 0px;
+ margin: 2px 0 0 2px;
+ border-collapse: collapse;
+ }*/
+
+/*视频控件的底部*/
+.p-videoCtrl-southDiv {
+	width: 640px;
+	height: 40px;
+	padding: 0px;
+	border:0px;
+	border-top: 0px solid #74B04E;
+	border-bottom: 0px solid #74B04E;
+	margin:0px;
+	/*margin-top:-4px;*/
+}
+
+.p-c-play {
+	background-image: url(../images/replay.png);
+}
+
+.p-c-capture {
+	background-image: url(../images/capture.png);
+}
+
+.p-c-talkback {
+	background-image: url(../images/talkback-close.png);
+}
+
+.p-c-audio {
+	background-image: url(../images/audio-close.png);
+}
+
+.p-c-video {
+	background-image: url(../images/video-close.png);
+}
+
+.p-c-stop {
+	background-image: url(../images/stop.png);
+}
+
+.p-c-stopAll {
+	background-image: url(../images/stopall.png);
+}
+
+.p-c-decorate{
+	width:65px;
+	height:40px;
+	border:0px;
+	float:right;
+	padding: 0px;
+	margin-right:10px;
+	background-repeat: no-repeat;
+	background-image: url(../images/decorate.png);
+}
+
+/*视频控件的参数控制部分*/
+.p-videoCtrl-eastDiv {
+	width: 176px;
+	height: 458px;
+	float: right;
+	padding: 0px;
+	background-color: #DDDDDD;
+	border: 0px solid #74B04E;
+	border-left: none;
+}
+
+/*视频控件title*/
+.p-videoCtrl-titleDiv {
+	width: 640px;
+	height: 25px;
+	border: 1px solid #74B04E;
+	border-bottom: 0;
+	text-align: right;
+	cursor: move;
+}
+
+.p-videoCtrl-titleDiv-close {
+	cursor: pointer;
+	width: 15px;
+	height: 15px;
+	background-color: #fff;
+	float: right;
+	border: 1px solid #74B04E;
+	margin: 4px 6px 0 0;
+}
+
+.p-videoCtrl-titleDiv-close span {
+	height:100%;
+	width:100%;
+	line-height:12px;
+	color: #74B04E;
+	margin: 0px 2px 0 0;
+	font-size: 16px;
+	font-family: "lucida Grande", Verdana;
+}
+
+.p-videoCtrl-titleDiv-show {
+	padding: 0;
+	margin: 0;
+	border: 0;
+	padding-left: 10px;
+	padding-top: 2px;
+	width: 90%;
+	height: 90%;
+	float: left;
+	vertical-align: middle;
+	text-align: left;
+	overflow: hidden;
+}
+
+.p-gradient-ctrl {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#E5E6E6",endColorstr="#C6C7C7",gradientType=0);
+	-ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#E5E6E6",endColorstr="#C6C7C7",gradientType=0);/*IE8*/
+	background: "#404040"; /* 一些不支持背景渐变的浏览器 */
+	background: -moz-linear-gradient(270deg, #E5E6E6, #C6C7C7);/*Firefox*/
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#E5E6E6), to(#C6C7C7));/*chrome/Safar*/
+}
+
+/**
+ * 	变更样式*/

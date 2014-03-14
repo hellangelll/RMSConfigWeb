@@ -1,0 +1,20 @@
+//客户端发送值
+{
+	"target":"user_login",
+	"action":"set",
+	"status":0,		//当次操作的状态码 0--正常
+	"data":{
+		"name":"test",
+		"pwd_ordered":"098f6bcd4621d373cade4e832627b4f6"
+	}
+}
+
+//服务端返回值
+{
+	"target":"user_login",
+	"action":"set",
+	"status":0,		//当次操作的状态码 0--正常
+	"data":{
+		"identify":"134651"		//身份标识
+	}
+}

@@ -1,0 +1,17 @@
+//客户端发送值
+{
+	"target":"user_logout",
+	"action":"set",
+	"status":0,		//当次操作的状态码 0--正常
+	"data":{
+        "identify":"134651"		//身份标识
+	}
+}
+
+//服务端返回值
+{
+	"target":"user_login",
+	"action":"set",
+	"status":0,		//当次操作的状态码 0--正常
+	"data":{}
+}

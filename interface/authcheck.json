@@ -1,0 +1,20 @@
+//验证授权码
+{
+    "target": "auth_check",
+    "action": "set",
+    "status": 0,						//当次操作的状态码 0--正常
+    "identify": "134651",			//身份标识
+    "data": {
+        "type": 0,      //认证类型  0-激活码   1-授权字符串
+        "reqstr" : "uisdjfkojfjkdsf" //认证字符串
+    }
+};
+
+//服务端返回值
+{
+    "target": "auth_check",
+    "action": "set",
+    "status": 0,						//当次操作的状态码 0--正常
+    "identify": "134651",			//身份标识
+    "data": {}
+}

@@ -1,0 +1,79 @@
+//设备的通道列表
+//客户端发送值
+{
+    "target": "Channel_list",
+    "action": "get",
+    "status": 0,						//当次操作的状态码 0--正常
+    "identify": "134651",			//身份标识
+    "data": {
+        "name": "test",
+        "channelname": "",          //通道列表名称  为空的话  就是查询当前级别的所有通道
+        "searchflag":0,             //0--正常  1--模糊搜索
+        "nodeIndex":100               //当前返回的最后一个节点的索引
+    }
+}
+
+//服务端返回值
+{
+    "target": "Channel_list",
+    "action": "get",
+    "status": 0,						//当次操作的状态码 0--正常
+    "data": {
+        "name" : "username",
+        "channel_list": [
+            {
+                "title": "channeltitle",
+                "name": "channelname",
+                "pid": "parent",
+                "binded": 0,          // 0--未绑定  1--绑定
+                "nodetype": 0,		//1-目录 0-通道
+                "status" : 0        //该通道是否在线  0--不在线  1--在线
+            },
+            {
+                "title": "channeltitle",
+                "name": "channelname",
+                "pid": "parent",
+                "binded": 0,          // 0--未绑定  1--绑定
+                "nodetype": 0,		//1-目录 0-通道
+                "status" : 0        //0--不在线  1--在线
+            }
+        ]			//通道列表
+    }
+}
+
+//客户端发送值
+ {
+    "target": "Channel_list",
+    "action": "set",
+    "status": 0,						//当次操作的状态码 0--正常
+    "identify": "134651",			//身份标识
+    "data": {
+        "name" : "username",
+        "channel_list": [
+            {
+                "title": "channeltitle",
+                "name": "channelname",
+                "pid": "parent",
+                "binded": 0,          // 0--未绑定  1--绑定
+                "nodetype": 0,		//1-目录 0-通道
+                "status" : 0        //0--不在线  1--在线
+            },
+            {
+                "title": "channeltitle",
+                "name": "channelname",
+                "pid": "parent",
+                "binded": 0,          // 0--未绑定  1--绑定
+                "nodetype": 0,		//1-目录 0-通道
+                "status" : 0        //0--不在线  1--在线
+            }
+        ]			//通道列表
+    }
+}
+
+//服务端返回值
+{
+    "target": "Channel_list",
+    "action": "set",
+    "status": 0,						//当次操作的状态码 0--正常
+    "data": {}
+}

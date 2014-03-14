@@ -1,0 +1,25 @@
+//用户删除
+//客户端发送值
+{
+	"target":"userl_del",
+	"action":"set",
+	"status":0,						//当次操作的状态码 0--正常
+	"identify":"134651"	,			//身份标识
+	"data":{
+		"users":[{
+			"name":"user0"		//用户名
+		},{
+			"name":"user1"
+		},{
+			"name":"user2"
+		}]
+	}
+}
+
+//服务端返回值
+{
+	"target":"userl_del",
+	"action":"set",
+	"status":0,						//当次操作的状态码 0--正常
+	"data":{}
+}

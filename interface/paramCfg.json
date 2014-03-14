@@ -1,0 +1,62 @@
+//服务器参数配置
+//客户端发送值
+{
+	"target":"param_cfg",
+	"action":"get",
+	"status":0,						//当次操作的状态码 0--正常
+	"identify":"134651",			//身份标识
+	"data":{}
+}
+
+//服务端返回值
+{
+	"target":"param_cfg",
+	"action":"get",
+	"status":0,						//当次操作的状态码 0--正常
+	"data":{
+		"command_encryption":true,
+		"heartbeat_timeout":"20",
+		"rms_id":"rms",
+		"rms_title":"rms",
+		"rms_foreign_address":"192.168.1.1",
+		"rms_foreign_port":"6002",
+		"superior_rms_address":"192.168.2.2",
+		"superior_rms_port":"6003",
+		"cms_url":"192.168.3.3",
+		"authentication":"local",
+		"stream_encryption":true,
+        "remark":"remark"
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+
+//客户端发送值
+{
+	"target":"param_cfg",
+	"action":"set",
+	"status":0,						//当次操作的状态码 0--正常
+	"identify":"134651",			//身份标识
+	"data":{
+		"command_encryption":true,
+		"heartbeat_timeout":"20",
+		"rms_id":"rms",
+		"rms_title":"rms",
+		"rms_foreign_address":"192.168.1.1",
+		"rms_foreign_port":"6002",
+		"superior_rms_address":"192.168.2.2",
+		"superior_rms_port":"6003",
+		"cms_url":"192.168.3.3",
+		"authentication":"local",
+		"stream_encryption":true,
+        "remark":"remark"
+	}
+}
+
+//服务端返回值
+{
+	"target":"param_cfg",
+	"action":"set",
+	"status":0,						//当次操作的状态码 0--正常
+	"data":{}
+}

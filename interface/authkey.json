@@ -1,0 +1,22 @@
+//获取授权字符串
+//客户端发送值
+{
+    "target": "auth_key",
+    "action": "get",
+    "status": 0,						//当次操作的状态码 0--正常
+    "identify": "134651",			    //身份标识
+    "data": {
+    }
+};
+
+//服务端返回值
+{
+    "target": "auth_key",
+    "action": "get",
+    "status": 0,						//当次操作的状态码 0--正常
+    "identify": "134651",			    //身份标识
+    "data": {
+        "status" : 0,       //授权状态  1--已授权  0--未授权  2--授权过期
+        "keyid" : "uisdjfkojfjkdsf"     //授权字符串
+    }
+}

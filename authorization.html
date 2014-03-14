@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>RMS授权管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon" />
+    <!-- Bootstrap -->
+    <link href="lib/bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
+    <!--[if lte IE 6]>
+    <link rel="stylesheet" type="text/css" href="lib/bsie/css/bootstrap-ie6.css">
+    <link rel="stylesheet" type="text/css" href="lib/bsie/css/ie.css">
+    <![endif]-->
+    <link href="lib/tools/webtools.css" rel="stylesheet" media="screen" />
+    <link href="lib/posa-ui/css/posa-ui.css" rel="stylesheet" media="screen" />
+    <link href="css/main.css" rel="stylesheet" media="screen" />
+
+    <!--[if lt IE 9]>
+    <script src="lib/bootstrap/js/ie8/html5shiv.min.js"></script>
+    <script src="lib/bootstrap/js/ie8/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="panel panel-primary well well-sm">
+    <div class="panel-heading">
+        <div class="navbar-primary" role="navigation">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <h1 class="panel-title lead" style="font-size:30px;">RMS授权管理</h1>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a class="title-a-color" id="btnLoginout" style="float: right;" href="#">退出登录</a>
+                        <a class="title-a-color" id="btnIntoIndex"  style="float: right;" href="#">返回主页</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <p style="height: 80px;">&nbsp;</p>
+        <div class="col-xs-8 col-md-offset-4" style="font-size: 26px;">
+            <label for="CDKeyActive" class="col-xs-3">
+                <input type="radio" value="0" checked="checked" name="authorization" id="CDKeyActive" />&nbsp;激活码激活
+            </label>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+            <label for="licenseKeyActive" class="col-xs-4">
+                <input type="radio" value="1" name="authorization" id="licenseKeyActive" />&nbsp;授权字符串激活
+            </label>
+        </div>
+        <div class="col-xs-9 col-md-offset-3">
+            <br/>
+            <div id="LicenseKeyDiv" style="height:50px;overflow: hidden; font-size: 20px; display: none;">
+                您的授权码为: <span style="" id="LicenseKey"></span>
+            </div>
+            <div style="height:100px; overflow: hidden; font-size: 20px;">
+                请输入您的激活码: <input type="text" id="ActiveCode" style="width:360px; font-size: 20px;" value=""/>
+            </div>
+            <button id="btn-upload-key" class="btn btn-primary col-md-offset-3">激活授权</button>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<!--<script src="lib/jquery-1.10.2.js"></script>-->
+<script type="text/javascript" src="lib/jquery-1.7.2.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script type="text/javascript" src="lib/bootstrap/js/bootstrap.js"></script>
+<!--[if lte IE 6]>
+<script type="text/javascript" src="lib/bsie/js/bootstrap-ie.js"></script>
+<![endif]-->
+<script src="lib/md5-min.js" type="text/javascript"></script>
+<script src="lib/jquery.cookie.js" type="text/javascript"></script>
+<script src="lib/json2.js" type="text/javascript"></script>
+<script src="lib/posa-ui/posa-ui.js" type="text/javascript"></script>
+<script src="lib/tools/app.js" type="text/javascript"></script>
+<script src="js/main.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        if (HAT.Main.agent().name == 'msie' && parseInt(HAT.Main.agent().version, 10) < 8) {
+            HAT.Main.layer.add('');
+            $('#login-container').remove();
+            alert('您的浏览器版本过低，为给您更好的体验，请使用IE8及以上版本（或Firefox,Chrome等）浏览器！');
+            return;
+        }
+
+        $(':radio[name="authorization"]:first').attr("checked", true);
+
+        $(':radio').click(function () {
+            if( $(this).val() == 0 ){
+                $("#LicenseKeyDiv").slideUp(500,"linear");
+            }else{
+                $("#LicenseKeyDiv").slideDown(500,"linear");
+            }
+        });
+
+        $('#btn-upload-key').click(function(){
+            if( !$("#ActiveCode").val() ){
+                HAT.msg.infoWarning("请输入合法数据!");
+                return;
+            }
+            var type = $(':radio[name="authorization"]:checked').val(), data= {};
+            data.type = type*1 || 0;
+            data.reqstr = $("#ActiveCode").val().trim() || "";
+
+            HAT.ajax.post(HAT.target.authcheck, "set", data, function (data) {
+                if( data.status == 0 ){
+                    HAT.msg.infoCorrect('授权成功, <a href="index.html" style="color:red">请点我进入登录页面</a>', -1);
+                }
+            });
+        });
+
+        $("#btnLoginout").bind("click", function () {
+            HAT.logout(function(){
+                window.location.href = "index.html";
+            });
+        });
+
+        $("#btnIntoIndex").bind("click", function () {
+            window.location.href = "main.html";
+        });
+
+        HAT.ajax.post(HAT.target.authkey, "get", {}, function (data) {
+            if( data.data ){
+                $("#LicenseKey").text(data.data.keyid);
+            }
+        });
+    });
+</script>
+</body>
+</html>
